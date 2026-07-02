@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModZ Dump_SourceWebsite</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+  <style>:root {
+    --main: #5b7cfa;
+    --main-light: #7b96ff;
+    --main-dark: #4361d8;
+    --success: #2da970;
+    --warning: #e6a23c;
+    --error: #dc4444;
+    --bg-1: #121212;
+    --bg-2: #1e1e1e;
+    --bg-3: #2a2a3a;
+    --bg-hover: #333345;
+    --text-1: #e2e8f0;
+    --text-2: #94a3b8;
+    --border: #3a3a52;
+    --radius: 8px;
+    --transition: all 0.25s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: var(--bg-1);
+    color: var(--text-1);
+    min-height: 100vh;
+    line-height: 1.5;
+}
+
+.bg-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 10% 20%, rgba(91,124,250,0.05) 0%, transparent 25%),
+                radial-gradient(circle at 90% 80%, rgba(45,169,112,0.05) 0%, transparent 25%);
+    z-index: -1;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 15px;
+    animation: pageIn 0.4s ease-out;
+}
+
+@keyframes pageIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.logo-icon {
+    font-size: 1.8rem;
+}
+
+.logo-text {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.logo-text span {
+    color: var(--main);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+}
+
+.stat-card {
+    background: var(--bg-2);
+    padding: 15px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    border-color: var(--main);
+    transform: translateY(-2px);
+}
+
+.stat-num {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--main);
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: var(--text-2);
+}
+
+.control-box {
+    background: var(--bg-2);
+    padding: 20px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+}
+
+.input-wrap label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+#urlInput {
+    width: 100%;
+    min-height: 100px;
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px;
+    color: var(--text-1);
+    font-size: 0.9rem;
+    resize: vertical;
+    transition: var(--transition);
+}
+
+#urlInput:focus {
+    outline: none;
+    border-color: var(--main);
+    box-shadow: 0 0 0 3px rgba(91,124,250,0.15);
+}
+
+.option-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    margin: 15px 0;
+    font-size: 0.85rem;
+    color: var(--text-2);
+}
+
+.opt-check {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.opt-check:hover {
+    color: var(--text-1);
+}
+
+.opt-check input {
+    width: 15px;
+    height: 15px;
+    accent-color: var(--main);
+}
+
+.opt-select {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.opt-select select {
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-1);
+    color: var(--text-1);
+    font-size: 0.85rem;
+}
+
+.btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.btn {
+    padding: 9px 16px;
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.btn.main-btn {
+    background: linear-gradient(135deg, var(--main), var(--main-dark));
+    color: white;
+}
+
+.btn.main-btn:hover {
+    background: linear-gradient(135deg, var(--main-light), var(--main));
+}
+
+.btn.sub-btn {
+    background: var(--bg-3);
+    color: var(--text-1);
+    border: 1px solid var(--border);
+}
+
+.btn.sub-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--main);
+}
+
+.btn.small-btn {
+    padding: 7px 12px;
+    font-size: 0.8rem;
+    background: var(--bg-3);
+    color: var(--text-1);
+    border: 1px solid var(--border);
+}
+
+.btn.small-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--main);
+}
+
+.btn.danger {
+    background: rgba(220,68,68,0.15);
+    color: var(--error);
+    border: 1px solid rgba(220,68,68,0.3);
+}
+
+.btn.danger:hover {
+    background: rgba(220,68,68,0.25);
+    border-color: var(--error);
+}
+
+.filter-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: var(--bg-2);
+    padding: 15px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+}
+
+.filter-btns {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.f-btn {
+    padding: 7px 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.8rem;
+}
+
+.f-btn.active, .f-btn:hover {
+    background: var(--main);
+    border-color: var(--main);
+    color: white;
+}
+
+.list-section {
+    margin-bottom: 20px;
+}
+
+.item-list {
+    background: var(--bg-2);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.empty-state {
+    padding: 35px;
+    text-align: center;
+    color: var(--text-2);
+    font-style: italic;
+}
+
+.list-item {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    transition: var(--transition);
+    animation: itemUp 0.3s ease-out forwards;
+    opacity: 0;
+    transform: translateY(8px);
+}
+
+@keyframes itemUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.list-item:last-child { border-bottom: none; }
+.list-item:hover { background: rgba(91,124,250,0.05); padding-left: 22px; }
+
+.item-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.item-link {
+    flex: 1;
+    word-break: break-all;
+    font-size: 0.85rem;
+}
+
+.status-tag {
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.tag-pending { background: rgba(230,162,60,0.15); color: var(--warning); }
+.tag-run { background: rgba(91,124,250,0.15); color: var(--main); animation: softPulse 1.5s infinite; }
+@keyframes softPulse { 50% { opacity: 0.7; } }
+.tag-done { background: rgba(45,169,112,0.15); color: var(--success); }
+.tag-fail { background: rgba(220,68,68,0.15); color: var(--error); }
+
+.item-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--text-2);
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.act-btn {
+    padding: 4px 8px;
+    background: var(--bg-3);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text-1);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-left: 4px;
+}
+
+.act-btn:hover {
+    background: var(--main);
+    border-color: var(--main);
+    color: white;
+}
+
+.act-btn.del-btn:hover {
+    background: var(--error);
+    border-color: var(--error);
+}
+
+.view-section {
+    background: var(--bg-2);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.view-head {
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.view-head h3 {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.code-display {
+    padding: 15px 18px;
+    max-height: 400px;
+    overflow: auto;
+    font-family: 'Consolas', monospace;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--text-1);
+    white-space: pre-wrap;
+    word-break: break-all;
+    background: var(--bg-1);
+}
+
+.msg-container {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.msg-item {
+    padding: 10px 15px;
+    border-radius: var(--radius);
+    background: var(--bg-2);
+    border-left: 3px solid var(--main);
+    box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+    font-size: 0.85rem;
+    transition: var(--transition);
+    animation: msgSlide 0.25s ease-out;
+}
+
+@keyframes msgSlide {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.msg-success { border-color: var(--success); }
+.msg-error { border-color: var(--error); }
+.msg-warn { border-color: var(--warning); }
+
+@media (max-width: 768px) {
+    .container { padding: 12px 10px; }
+    .logo-text { font-size: 1.3rem; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .filter-bar { flex-direction: column; align-items: flex-start; }
+    .item-top { flex-direction: column; align-items: flex-start; }
+    .msg-container { left: 10px; right: 10px; }
+}
+  </style>
+<body>
+    <div class="bg-layer"></div>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <h1 class="logo-text">ModZ <span>Dump_SourceWebsite</span></h1>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-num" id="userCount">0</div>
+                    <div class="stat-label">Lần sử dụng</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num" id="bypassCount">0</div>
+                    <div class="stat-label">Lần bỏ chặn CORS</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num" id="avgTime">--</div>
+                    <div class="stat-label">Thời gian TB</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num" id="successRate">0%</div>
+                    <div class="stat-label">Tỉ lệ thành công</div>
+                </div>
+            </div>
+        </header>
+
+        <section class="control-box">
+            <div class="input-wrap">
+                <label>Nhập danh sách URL cần lấy nguồn</label>
+                <textarea id="urlInput" placeholder="Dán nhiều URL mỗi dòng 1 cái hoặc cả đoạn văn bản chứa link..."></textarea>
+            </div>
+
+            <div class="option-row">
+                <label class="opt-check">
+                    <input type="checkbox" id="autoProxy" checked>
+                    <span>Tự động dùng Proxy bỏ chặn CORS</span>
+                </label>
+                <label class="opt-check">
+                    <input type="checkbox" id="spoofInfo" checked>
+                    <span>Giả mạo thông tin trình duyệt</span>
+                </label>
+                <label class="opt-check">
+                    <input type="checkbox" id="retryFail" checked>
+                    <span>Thử lại khi thất bại</span>
+                </label>
+                <div class="opt-select">
+                    <span>Định dạng lưu:</span>
+                    <select id="saveMode">
+                        <option value="raw">Nguồn gốc</option>
+                        <option value="html">Có ghi chú tiêu đề</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="btn-row">
+                <button class="btn main-btn" id="startBtn">🚀 Bắt đầu lấy nguồn</button>
+                <button class="btn sub-btn" id="loadList">📂 Tải danh sách</button>
+                <button class="btn sub-btn" id="saveList">💾 Lưu danh sách</button>
+                <input type="file" id="filePick" accept=".txt" hidden>
+            </div>
+        </section>
+
+        <section class="filter-bar">
+            <div class="filter-btns">
+                <button class="f-btn active" data-f="all">Tất cả (<span id="totalCount">0</span>)</button>
+                <button class="f-btn" data-f="done">Thành công (<span id="doneCount">0</span>)</button>
+                <button class="f-btn" data-f="fail">Thất bại (<span id="failCount">0</span>)</button>
+                <button class="f-btn" data-f="pending">Chờ xử lý (<span id="pendingCount">0</span>)</button>
+            </div>
+            <div class="action-btns">
+                <button class="btn small-btn" id="selAll">Chọn tất</button>
+                <button class="btn small-btn danger" id="delFail">Xóa lỗi</button>
+                <button class="btn small-btn" id="redoFail">Chạy lại lỗi</button>
+                <button class="btn small-btn" id="resetAll">Xóa hết</button>
+            </div>
+        </section>
+
+        <section class="list-section">
+            <div id="queueList" class="item-list">
+                <div class="empty-state">Chưa có URL nào được thêm vào</div>
+            </div>
+        </section>
+
+        <section class="view-section">
+            <div class="view-head">
+                <h3>Nội dung nguồn</h3>
+                <div class="view-actions">
+                    <button class="btn small-btn" id="copyTxt">📋 Sao chép</button>
+                    <button class="btn small-btn main-btn" id="packZip">📦 Tải toàn bộ ZIP</button>
+                </div>
+            </div>
+            <pre id="codeView" class="code-display">-- Chọn mục để xem nội dung --</pre>
+        </section>
+
+        <div id="msgBox" class="msg-container"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="script.js"></script>
+  <script>let listData = JSON.parse(localStorage.getItem('savedListData') || '[]');
+let currentFilter = localStorage.getItem('savedFilter') || 'all';
+let totalBypass = Number(localStorage.getItem('bypassCount') || 0);
+let totalTime = Number(localStorage.getItem('totalTime') || 0);
+let doneCount = Number(localStorage.getItem('doneCount') || 0);
+let toolUseCount = Number(localStorage.getItem('toolUse') || 0);
+let isRunning = false;
+
+const NOTE_HEADER = `/*
+
+ModZ Dump_SourceWebsite
+
+*/
+
+`;
+
+const PROXIES = [
+    {url:'https://corsproxy.io/?url=',t:14000},
+    {url:'https://api.allorigins.win/raw?url=',t:14000},
+    {url:'https://api.codetabs.com/v1/proxy?quest=',t:16000}
+];
+
+const AGENTS = [
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0.0.0',
+    'Mozilla/5.0 (Android 14; Mobile) AppleWebKit/537.36 Chrome/125.0',
+    'Mozilla/5.0 (Macintosh; Intel OS X 14_5) Version/17.5 Safari/605.1.15'
+];
+
+function autoSaveLocal(){
+    localStorage.setItem('savedListData', JSON.stringify(listData));
+    localStorage.setItem('savedFilter', currentFilter);
+    localStorage.setItem('totalTime', totalTime);
+    localStorage.setItem('doneCount', doneCount);
+    localStorage.setItem('bypassCount', totalBypass);
+    localStorage.setItem('toolUse', toolUseCount);
+}
+
+function showMsg(txt, type='info'){
+    const wrap = document.getElementById('msgBox');
+    if(!wrap) return;
+    const el = document.createElement('div');
+    el.className = `msg-item msg-${type}`;
+    el.textContent = txt;
+    wrap.appendChild(el);
+    setTimeout(()=>{
+        el.style.opacity='0';
+        setTimeout(()=>el.remove(),3500);
+    },3500);
+}
+
+function setButtonState(running){
+    isRunning = running;
+    const btn = document.getElementById('startBtn');
+    const allBtns = document.querySelectorAll('.btn');
+    if(!btn) return;
+    if(running){
+        btn.innerHTML = "⏳ ĐANG XỬ LÝ...";
+        allBtns.forEach(b=>b.disabled = true);
+        btn.style.opacity = "0.7";
+    }else{
+        btn.innerHTML = "🚀 Bắt đầu lấy nguồn";
+        allBtns.forEach(b=>b.disabled = false);
+        btn.style.opacity = "1";
+    }
+}
+
+function fmtSize(b){
+    if(!b||b<=0) return '0B';
+    return b<1024 ? b+'B' : b<1048576 ? (b/1024).toFixed(1)+'KB' : (b/1048576).toFixed(2)+'MB';
+}
+
+function getDomain(url){
+    try{ return new URL(url).hostname.replace(/^www./,'').replace(/[^a-zA-Z0-9_]/g,'_'); }
+    catch{ return 'unknown'; }
+}
+
+function nowStr(){
+    const d=new Date();
+    return ''+d.getFullYear()
+    +String(d.getMonth()+1).padStart(2,'0')
+    +String(d.getDate()).padStart(2,'0')+'_'
+    +String(d.getHours()).padStart(2,'0')
+    +String(d.getMinutes()).padStart(2,'0')
+    +String(d.getSeconds()).padStart(2,'0');
+}
+
+async function safeFetch(url){
+    const useP = document.getElementById('autoProxy').checked;
+    const fake = document.getElementById('spoofInfo').checked;
+    const retry = document.getElementById('retryFail').checked;
+    const maxTry = retry ? 2 : 1;
+
+    const hd = {};  
+    if(fake){ hd['User-Agent'] = AGENTS[Math.floor(Math.random()*AGENTS.length)]; hd['Referer']='https://google.com/'; }  
+
+    for(let t=0;t<maxTry;t++){  
+        if(!useP){  
+            try{  
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 11000);
+                const r=await fetch(url,{headers:hd,signal:controller.signal});
+                clearTimeout(timeout);
+                if(r.ok) return await r.text();  
+            }catch{}  
+        }  
+        for(let p of PROXIES){  
+            totalBypass++;  
+            updateStats();
+            autoSaveLocal();
+            try{  
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), p.t);
+                const r=await fetch(p.url+encodeURIComponent(url),{headers:hd,signal:controller.signal});
+                clearTimeout(timeout);
+                if(r.ok) return await r.text();  
+            }catch{continue;}  
+        }  
+    }  
+    throw new Error('không truy cập được sau nhiều lần thử');
+}
+
+function getUrls(str){
+    const found = str.match(/https?:\/\/[^\s<>"'\n]+/g)||[];
+    return [...new Set(found)].filter(u=>u.startsWith('http'));
+}
+
+function updateStats(){
+    const total = listData.length;
+    const ok = listData.filter(x=>x.s==='done').length;
+    const fail = listData.filter(x=>x.s==='fail').length;
+    const pend = listData.filter(x=>x.s==='pending'||x.s==='run').length;
+    
+    document.getElementById('totalCount').textContent = total;
+    document.getElementById('doneCount').textContent = ok;
+    document.getElementById('failCount').textContent = fail;
+    document.getElementById('pendingCount').textContent = pend;
+    document.getElementById('userCount').textContent = toolUseCount;
+    document.getElementById('bypassCount').textContent = totalBypass;
+    
+    const rate = total>0 ? Math.round((ok/total)*100) : 0;
+    document.getElementById('successRate').textContent = rate+'%';
+    
+    if(doneCount>0) document.getElementById('avgTime').textContent = Math.round(totalTime/doneCount)+'ms';
+    else document.getElementById('avgTime').textContent = '--';
+    
+    autoSaveLocal();
+}
+
+function renderList(){
+    const wrap = document.getElementById('queueList');
+    if(!wrap) return;
+    const view = currentFilter === 'all' ? listData : listData.filter(x=>x.s===currentFilter);
+    updateStats();
+
+    if(!view.length){  
+        wrap.innerHTML = `<div class="empty-state">Chưa có URL nào được thêm vào</div>`;  
+        return;  
+    }  
+
+    wrap.innerHTML = view.map((it,idx)=>{  
+        const realIdx = listData.indexOf(it);  
+        return `  
+        <div class="list-item" style="animation-delay: ${idx*0.05}s">  
+            <div class="item-top">  
+                <div class="item-check">
+                    <input type="checkbox" class="chk-box" data-i="${realIdx}">
+                </div>
+                <span class="item-link">${it.url}</span>  
+                <span class="status-tag tag-${it.s}">  
+                    ${it.s==='pending'?'Chờ':it.s==='run'?'⏳ Đang tải':it.s==='done'?'✅ Xong':'❌ Lỗi'}  
+                </span>  
+            </div>  
+            <div class="item-info">  
+                <span>Kích thước: ${fmtSize(it.size)}</span>  
+                <span>Thời gian: ${it.tm||'--'}</span>  
+                <div class="item-btns">  
+                    <button class="act-btn" onclick="viewItem(${realIdx})">Xem</button>  
+                    <button class="act-btn" onclick="dlItem(${realIdx})">Tải</button>  
+                    <button class="act-btn del-btn" onclick="delItem(${realIdx})">Xóa</button>  
+                </div>  
+            </div>  
+        </div>`;  
+    }).join('');
+}
+
+async function doItem(idx, current, total){
+    const it = listData[idx];
+    it.s = 'run'; renderList();
+    showMsg(`⏳ Đang xử lý ${current}/${total}: ${getDomain(it.url)}`, 'info');
+
+    const st = performance.now();  
+    try{  
+        const raw = await safeFetch(it.url);  
+        const mode = document.getElementById('saveMode').value;  
+        it.txt = mode === 'raw' ? raw : NOTE_HEADER + raw;  
+        it.size = new Blob([it.txt]).size;  
+        it.s = 'done';  
+        const used = Math.round(performance.now()-st);  
+        it.tm = used+'ms';  
+        totalTime += used; doneCount++;  
+        showMsg(`✅ XONG ${current}/${total}: ${getDomain(it.url)}`, 'success');  
+    }catch(e){  
+        it.s='fail'; it.err=e.message;  
+        showMsg(`❌ LỖI ${current}/${total}: ${getDomain(it.url)} → ${e.message}`, 'error');  
+    }  
+    renderList();
+}
+
+async function startAll(){
+    if(isRunning) return showMsg('⚠️ Đang xử lý, vui lòng chờ!','warn');
+    const val = document.getElementById('urlInput').value.trim();
+    const urls = getUrls(val);
+    if(!urls.length) return showMsg('⚠️ Không tìm thấy URL hợp lệ!','warn');
+
+    setButtonState(true);
+    toolUseCount += urls.length;
+    autoSaveLocal();
+    urls.forEach(u=>{ if(!listData.some(x=>x.url===u)) listData.push({url:u,txt:null,size:0,s:'pending',tm:null}); });  
+    renderList();  
+    showMsg(`📥 Đã thêm ${urls.length} liên kết, bắt đầu chạy...`, 'info');  
+
+    const pendingList = listData.filter(x=>x.s==='pending');
+    for(let i=0;i<pendingList.length;i++){
+        const idx = listData.indexOf(pendingList[i]);
+        await doItem(idx, i+1, pendingList.length);
+    }
+
+    setButtonState(false);
+    showMsg(`🎉 HOÀN THÀNH! Tổng ${pendingList.length} mục, thành công ${listData.filter(x=>x.s==='done').length} mục`, 'success');
+}
+
+function viewItem(i){ 
+    const el = document.getElementById('codeView');
+    if(el) el.textContent = listData[i].txt||'-- Không có nội dung --'; 
+}
+function dlItem(i){
+    const it = listData[i]; if(!it.txt) return showMsg('Không có nội dung','warn');
+    const n = getDomain(it.url);
+    const ext = document.getElementById('saveMode').value === 'html' ? 'html':'txt';
+    const b = new Blob([it.txt],{type:'text/plain'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`Source_${n}_${nowStr()}.${ext}`; a.click();
+    showMsg(`💾 Đã tải: ${n}`,'success');
+}
+async function packZip(){
+    if(isRunning) return showMsg('⚠️ Đang xử lý, vui lòng chờ!','warn');
+    const ok = listData.filter(x=>x.s==='done'&&x.txt);
+    if(!ok.length) return showMsg('Không có dữ liệu hợp lệ','warn');
+    showMsg('📦 Đang tạo file ZIP...','info');
+    const zip = new JSZip();
+    const ext = document.getElementById('saveMode').value === 'html' ? 'html':'txt';
+    ok.forEach((x,idx)=>zip.file(`Source_${getDomain(x.url)}_${idx+1}_${nowStr()}.${ext}`,x.txt));
+    const b = await zip.generateAsync({type:'blob'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`ModZ_Source_Dump_${nowStr()}.zip`; a.click();
+    showMsg(`✅ Đã tạo ZIP ${ok.length} file`,'success');
+}
+function delItem(i){ listData.splice(i,1); renderList(); showMsg('🗑️ Đã xóa mục','info'); }
+async function clearAll(){ 
+    if(isRunning) return showMsg('⚠️ Đang xử lý, vui lòng chờ!','warn');
+    if(confirm('Xóa hết danh sách & reset số liệu về 0?')){ 
+        listData=[]; 
+        totalBypass=0; totalTime=0; doneCount=0; toolUseCount=0;
+        localStorage.clear();
+        autoSaveLocal();
+        renderList(); 
+        showMsg('✅ Đã reset hoàn toàn về 0','success'); 
+    } 
+}
+function copyCode(){
+    if(isRunning) return showMsg('⚠️ Đang xử lý, vui lòng chờ!','warn');
+    const t = document.getElementById('codeView').textContent;
+    if(!t.trim()) return showMsg('Không có nội dung để sao chép','warn');
+    navigator.clipboard.writeText(t).then(()=>showMsg('📋 Đã sao chép nội dung','success'));
+}
+function redoErrors(){ 
+    if(isRunning) return showMsg('⚠️ Đang xử lý, vui lòng chờ!','warn');
+    listData.forEach(x=>{if(x.s==='fail')x.s='pending';}); 
+    renderList(); 
+    startAll(); 
+}
+
+function bindEvents(){
+    try {
+        showMsg("🚀 Công cụ đã khởi động xong!", "success");
+
+        document.getElementById('startBtn').addEventListener('click',startAll);
+        document.getElementById('resetAll').addEventListener('click',clearAll);
+        document.getElementById('copyTxt').addEventListener('click',copyCode);
+        document.getElementById('packZip').addEventListener('click',packZip);
+        document.getElementById('redoFail').addEventListener('click',redoErrors);
+        document.getElementById('delFail').addEventListener('click',()=>{
+            if(isRunning) return showMsg('⚠️ Đang xử lý, vui lòng chờ!','warn');
+            listData=listData.filter(x=>x.s!=='fail');
+            renderList();
+            showMsg('🗑️ Đã xóa tất cả mục lỗi','info');
+        });
+        document.getElementById('selAll').addEventListener('click',()=>{
+            if(isRunning) return showMsg('⚠️ Đang xử lý, vui lòng chờ!','warn');
+            document.querySelectorAll('.chk-box').forEach(c=>c.checked=true);
+        });
+
+        document.querySelectorAll('.f-btn').forEach(btn=>{  
+            btn.addEventListener('click',()=>{  
+                if(isRunning) return showMsg('⚠️ Đang xử lý, vui lòng chờ!','warn');
+                document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('active'));  
+                btn.classList.add('active');  
+                currentFilter=btn.dataset.f; renderList();  
+            });  
+        });  
+
+        document.getElementById('loadList').addEventListener('click',()=>{
+            if(isRunning) return showMsg('⚠️ Đang xử lý, vui lòng chờ!','warn');
+            document.getElementById('filePick').click();
+        });  
+        document.getElementById('filePick').addEventListener('change',e=>{  
+            const f=e.target.files[0]; if(!f)return;  
+            const r=new FileReader(); r.onload=ev=>{document.getElementById('urlInput').value=ev.target.result; showMsg('📂 Đã tải danh sách URL','success');}; r.readAsText(f);  
+        });  
+        document.getElementById('saveList').addEventListener('click',()=>{  
+            if(isRunning) return showMsg('⚠️ Đang xử lý, vui lòng chờ!','warn');
+            const txt = listData.map(x=>x.url).join('\n');  
+            const b=new Blob([txt]); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`URL_List_${nowStr()}.txt`; a.click();  
+            showMsg('💾 Đã lưu danh sách URL','success');
+        });  
+
+        updateStats();
+        renderList();
+    } catch (err) {
+        showMsg("❌ Lỗi khởi động: " + err.message, "error");
+        console.error("Lỗi khởi tạo:", err);
+    }
+}
+
+if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", bindEvents);
+}else{
+    bindEvents();
+}
+  </script>
+</body>
+                      </html>
+                      
